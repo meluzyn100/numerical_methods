@@ -1,5 +1,6 @@
 import numpy as np
 
+
 def bisection_method(f, a, b, tolerance=1e-13):
     """
     Perform the bisection method to find a root of the function f in the interval [a, b].
@@ -17,7 +18,9 @@ def bisection_method(f, a, b, tolerance=1e-13):
         ValueError: If the function does not satisfy the condition f(a) * f(b) < 0.
     """
     if f(a) * f(b) >= 0:
-        raise ValueError("The function must have opposite signs at the endpoints of the interval [a, b].")
+        raise ValueError(
+            "The function must have opposite signs at the endpoints of the interval [a, b]."
+        )
 
     midpoints = []
     while True:
@@ -59,6 +62,7 @@ def compute_log_differences(midpoints, root):
 
     return log_differences_current, log_differences_next
 
+
 def convergence_rate(midpoints, root):
     """
     Calculate the convergence rate of the bisection method.
@@ -70,8 +74,11 @@ def convergence_rate(midpoints, root):
     Returns:
         tuple: A tuple containing the slope (rate of convergence) and the intercept of the fitted line.
     """
-    log_differences_current, log_differences_next = compute_log_differences(midpoints, root)
+    log_differences_current, log_differences_next = compute_log_differences(
+        midpoints, root
+    )
     return np.polyfit(log_differences_current, log_differences_next, 1)
+
 
 def transform_midpoints(midpoints, root):
     """
@@ -100,6 +107,7 @@ def derivative(f, x, dx=1e-4):
         float: The numerical derivative of the function at the given point.
     """
     return (f(x + dx) - f(x)) / dx
+
 
 def newton_method(f, x0, tolerance=1e-9):
     """
@@ -137,7 +145,7 @@ def secant_method(f, x0, x1, max_iterations=10, tolerance=1e-11):
         tolerance (float): The tolerance for the root approximation. Default is 1e-9.
 
     Returns:
-        tuple: A tuple containing the final root approximation and lists of x0, x1, and x2 values 
+        tuple: A tuple containing the final root approximation and lists of x0, x1, and x2 values
                during the iterations for analysis.
 
     Raises:
@@ -149,7 +157,9 @@ def secant_method(f, x0, x1, max_iterations=10, tolerance=1e-11):
 
     for _ in range(max_iterations):
         if f(x1) == f(x0):
-            raise ValueError("Division by zero encountered in the secant method. Ensure f(x0) != f(x1).")
+            raise ValueError(
+                "Division by zero encountered in the secant method. Ensure f(x0) != f(x1)."
+            )
 
         x2 = x1 - f(x1) * (x1 - x0) / (f(x1) - f(x0))
         x0_values.append(x0)

@@ -145,7 +145,7 @@ def cubic_spline_segment(x, xk, a, b, c, d):
     Returns:
         float: The value of the spline segment at x.
     """
-    return a + b * (x - xk) + c * (x - xk)**2 + d * (x - xk)**3
+    return a + b * (x - xk) + c * (x - xk) ** 2 + d * (x - xk) ** 3
 
 
 def cubic_spline(x, knots, a, b, c, d):
@@ -165,10 +165,14 @@ def cubic_spline(x, knots, a, b, c, d):
     for xi in x:
         for i in range(len(knots) - 1):
             if knots[i] <= xi < knots[i + 1]:
-                result.append(cubic_spline_segment(xi, knots[i], a[i], b[i], c[i], d[i]))
+                result.append(
+                    cubic_spline_segment(xi, knots[i], a[i], b[i], c[i], d[i])
+                )
                 break
         else:
-            result.append(cubic_spline_segment(xi, knots[-1], a[-1], b[-1], c[-1], d[-1]))
+            result.append(
+                cubic_spline_segment(xi, knots[-1], a[-1], b[-1], c[-1], d[-1])
+            )
     return np.array(result)
 
 
@@ -188,7 +192,10 @@ def compute_cubic_spline_coefficients(knots, values):
     a = np.array(values)
 
     # Construct the system of equations for c coefficients
-    rhs = [3 / h[i] * (a[i + 1] - a[i]) - 3 / h[i - 1] * (a[i] - a[i - 1]) for i in range(1, n - 1)]
+    rhs = [
+        3 / h[i] * (a[i + 1] - a[i]) - 3 / h[i - 1] * (a[i] - a[i - 1])
+        for i in range(1, n - 1)
+    ]
     rhs = [0] + rhs + [0]
     diag = [1] + [2 * (h[i] + h[i + 1]) for i in range(n - 2)] + [1]
     diag_upper = [0] + h[1:-1].tolist()
@@ -202,7 +209,10 @@ def compute_cubic_spline_coefficients(knots, values):
     c = np.linalg.solve(A, rhs)
 
     # Compute b and d coefficients
-    b = [(a[i + 1] - a[i]) / h[i] - h[i] / 3 * (2 * c[i] + c[i + 1]) for i in range(n - 1)]
+    b = [
+        (a[i + 1] - a[i]) / h[i] - h[i] / 3 * (2 * c[i] + c[i + 1])
+        for i in range(n - 1)
+    ]
     d = [(c[i + 1] - c[i]) / (3 * h[i]) for i in range(n - 1)]
 
     return a, np.array(b), np.array(c), np.array(d)
