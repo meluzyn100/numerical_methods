@@ -89,7 +89,8 @@ def int_simpson(func, a, b, n):
                and step_size is the size of each interval.
     """
     if n % 2 != 0:
-        raise ValueError("Number of intervals (n) must be even for Simpson's rule.")
+        raise ValueError(
+            "Number of intervals (n) must be even for Simpson's rule.")
 
     x = np.linspace(a, b, n + 1)
     h = (b - a) / n

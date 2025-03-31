@@ -57,7 +57,8 @@ def vandermonde_interpolation(x, xs, ys):
 
     coeffs = np.linalg.solve(V, ys)
 
-    interpolated_values = np.sum([coeffs[i] * (x**i) for i in range(n)], axis=0)
+    interpolated_values = np.sum([coeffs[i] * (x**i)
+                                 for i in range(n)], axis=0)
     return interpolated_values
 
 
@@ -125,7 +126,8 @@ def chebyshev_interpolation(x, func, interval, num_points, method):
     """
     a, b = interval
     chebyshev_nodes = [
-        0.5 * (a + b) + 0.5 * (b - a) * np.cos((2 * k + 1) * np.pi / (2 * num_points))
+        0.5 * (a + b) + 0.5 * (b - a) *
+        np.cos((2 * k + 1) * np.pi / (2 * num_points))
         for k in range(num_points)
     ]
     ys = [func(x) for x in chebyshev_nodes]
